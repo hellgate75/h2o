@@ -9,7 +9,17 @@ FROM ubuntu:14.04
 MAINTAINER h2oai "h2o.ai"
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    h2oVersion=3.10.0.3
+    h2oVersion=3.10.0.3 \
+    H2O_CLOUD_NAME= \
+    H2O_FLAT_FILE_IPS= \
+    H2O_MACHINE_IP= \
+    H2O_REST_API_PORT= \
+    H2O_BASE_PORT= \
+    H2O_DISCOVERY_CID= \
+    H2O_DEDICATED_MAX_THREADS=5 \
+    H2O_CLIENT_MODE= \
+    H2O_JVM_HEAP_SIZE=4G
+
 # add a post-invoke hook to dpkg which deletes cached deb files
 # update the sources.list
 # update/dist-upgrade
