@@ -63,3 +63,8 @@ docker run -d -p 8098:54321 -p 8099:54322 -v /path/to/store/data:/data -v /path/
 
 On your browser open URL: http://localhost:54321/ , if you have a specific ip address for the container in an external or remote machine
 instance type: http://h2o_instance_ip_address:54321/
+
+
+### License ###
+
+[LGPL 3](/LICENSE)
