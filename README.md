@@ -29,12 +29,13 @@ Data Volume is used to store logs and archives.
 
 Flows volumes is used to store or import flows files.
 
-Ports: 54321, 54322
+Ports: 54321, 54322, 55555
 
 Port 54321 is default http port
 
 Port 54322 is default rest service port
 
+Port 55555 is ssh port
 
 ### Docker Environment Variable ###
 
@@ -56,13 +57,15 @@ Here h2o container environment variable :
 Here a sample command to run h2o container:
 
 ```bash
-docker run -d -p 8098:54321 -p 8099:54322 -v /path/to/store/data:/data -v /path/to/store/flows:/flows --name my-h2o hellgate75/h2o:latest
+<<<<<<< HEAD
+docker run -d -p 8098:54321 -p 8099:54322 -p 55555:55555 -v /path/to/store/data:/data -v /path/to/store/flows:/flows --name my-h2o hellgate75/h2o:latest
 ```
 
 ### Test Container ###
 
 On your browser open URL: http://localhost:54321/ , if you have a specific ip address for the container in an external or remote machine
 instance type: http://h2o_instance_ip_address:54321/
+
 
 ### License ###
 
