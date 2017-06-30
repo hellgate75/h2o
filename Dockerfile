@@ -3,10 +3,10 @@
 ########################################################################
 
 # pull base image
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # maintainer details
-MAINTAINER h2oai "h2o.ai"
+MAINTAINER Fabrizio Torelli <hellgate75@gmail.com>
 
 ENV DEBIAN_FRONTEND=noninteractive \
     h2oVersion=3.10.0.3 \
@@ -64,14 +64,19 @@ RUN \
   wget https://raw.githubusercontent.com/laurendiperna/Churn_Scripts/master/Modeling_Script.py
 
 #Install R
-#RUN sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list' && gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9 && \
-#    gpg -a --export E084DAB9 | sudo apt-key add - && sudo apt-get update && sudo apt-get -y install r-base
-#echo "Installing H2O for R"
-#TODO: Wrong to fix
-#RUN /usr/bin/R -e "IRkernel::installspec(user = FALSE)" && /usr/bin/R --slave -e 'install.packages("h2o", type="source", repos=(c("https://s3.amazonaws.com/h2o-release/h2o/'${h2oBranch}'/'${h2oBuild}'/R")))'
+RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+    add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/' && \
+    apt-get update && \
+    apt-get install -y r-base --no-install-recommends && \
+    apt-get clean && \
+    apt-get -y autoclean && \
+    rm -rf /var/lib/apt/lists/*
 
-#echo "Installing H2O for Python..."
-#RUN /usr/local/bin/pip install --user http://h2o-release.s3.amazonaws.com/h2o/rel-turing/3/Python/h2o-${h2oVersion}-py2.py3-none-any.whl
+RUN echo "Installing H2O for R" /usr/bin/R --slave -e 'install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R")))'
+
+RUN echo "Installing H2O for Python..." && pip install -f http://h2o-release.s3.amazonaws.com/h2o/latest_stable_Py.html h2o
 
 # Define a mountable data directory
 RUN mkdir /data && mkdir flows
@@ -82,8 +87,7 @@ WORKDIR /opt
 COPY run-h2o.sh /usr/local/bin/run-h2o
 RUN chmod 777 /usr/local/bin/run-h2o
 
-EXPOSE 54321
-EXPOSE 54322
+EXPOSE 54321 54322 55555
 
 ENTRYPOINT ["run-h2o"]
 # Define default command
