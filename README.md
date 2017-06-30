@@ -57,7 +57,6 @@ Here h2o container environment variable :
 Here a sample command to run h2o container:
 
 ```bash
-<<<<<<< HEAD
 docker run -d -p 8098:54321 -p 8099:54322 -p 55555:55555 -v /path/to/store/data:/data -v /path/to/store/flows:/flows --name my-h2o hellgate75/h2o:latest
 ```
 
